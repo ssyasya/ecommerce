@@ -7,6 +7,17 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib import messages
 from django.conf import settings
 
+from django.dispatch import receiver
+from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
+
+# detecting click spam
+from pynput.mouse import Listener
+import logging
+
+# change file to save data later
+logging.basicConfig(filename="mouse_log.txt", level=logging.DEBUG, format='%(asctime)s: %(message)s')
+
+
 def home_view(request):
     products=models.Product.objects.all()
     if 'product_ids' in request.COOKIES:
@@ -50,14 +61,45 @@ def customer_signup_view(request):
 def is_customer(user):
     return user.groups.filter(name='CUSTOMER').exists()
 
+#sign in activity
+@receiver(user_logged_in)
+def log_user_login(sender, request, user, **kwargs):
+    print('user {} logged in through page {}'.format(user.username, request.META.get('HTTP_REFERER')))
 
+@receiver(user_login_failed)
+def log_user_login_failed(sender, credentials, request, **kwargs):
+    print('user {} logged in failed through page {}'.format(credentials.get('username'),request.META.get('HTTP_REFERER')))
+
+@receiver(user_logged_out)
+def log_user_logout(sender, request, user, **kwargs):
+    print('user {} logged out through page {}'.format(user.username, request.META.get('HTTP_REFERER')))
+
+
+
+def on_move(x, y):
+    # logging.info("Mouse moved to ({0}, {1})".format(x, y))
+    print ("Mouse moved to ({0}, {1})".format(x, y))
+
+def on_click(x, y, button, pressed):
+    if pressed:
+    #    logging.info('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
+        print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
+
+def on_scroll(x, y, dx, dy):
+    #logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
+    print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
 
 #---------AFTER ENTERING CREDENTIALS WE CHECK WHETHER USERNAME AND PASSWORD IS OF ADMIN,CUSTOMER
 def afterlogin_view(request):
     if is_customer(request.user):
         return redirect('customer-home')
+        with Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
+            listener.join()
     else:
         return redirect('admin-dashboard')
+        with Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
+            listener.join()
+
 
 #---------------------------------------------------------------------------------
 #------------------------ ADMIN RELATED VIEWS START ------------------------------
@@ -203,6 +245,7 @@ def view_feedback_view(request):
 #---------------------------------------------------------------------------------
 #------------------------ PUBLIC CUSTOMER RELATED VIEWS START ---------------------
 #---------------------------------------------------------------------------------
+
 def search_view(request):
     # whatever user write in search box we get in query
     query = request.GET['query']
