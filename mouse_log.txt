@@ -1,0 +1,142 @@
+2021-09-08 20:43:55,831: Internal Server Error: /my-profile
+Traceback (most recent call last):
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 828, in _resolve_lookup
+    current = current[bit]
+TypeError: 'ImageFieldFile' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\contrib\auth\decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\contrib\auth\decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "C:\ecommerce\ecom\views.py", line 544, in my_profile_view
+    return render(request,'ecom/my_profile.html',{'customer':customer})
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 903, in render_annotated
+    return self.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 903, in render_annotated
+    return self.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 903, in render_annotated
+    return self.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\templatetags\static.py", line 106, in render
+    url = self.url(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\templatetags\static.py", line 102, in url
+    path = self.path.resolve(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 670, in resolve
+    obj = self.var.resolve(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 795, in resolve
+    value = self._resolve_lookup(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 836, in _resolve_lookup
+    current = getattr(current, bit)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\db\models\fields\files.py", line 61, in url
+    self._require_file()
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\db\models\fields\files.py", line 38, in _require_file
+    raise ValueError("The '%s' attribute has no file associated with it." % self.field.name)
+ValueError: The 'profile_pic' attribute has no file associated with it.
+2021-09-08 20:43:59,750: Internal Server Error: /my-profile
+Traceback (most recent call last):
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 828, in _resolve_lookup
+    current = current[bit]
+TypeError: 'ImageFieldFile' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\contrib\auth\decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\contrib\auth\decorators.py", line 21, in _wrapped_view
+    return view_func(request, *args, **kwargs)
+  File "C:\ecommerce\ecom\views.py", line 544, in my_profile_view
+    return render(request,'ecom/my_profile.html',{'customer':customer})
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\shortcuts.py", line 19, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\backends\django.py", line 61, in render
+    return self.template.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 903, in render_annotated
+    return self.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\loader_tags.py", line 150, in render
+    return compiled_parent._render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 903, in render_annotated
+    return self.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\loader_tags.py", line 62, in render
+    result = block.nodelist.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 936, in render
+    bit = node.render_annotated(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 903, in render_annotated
+    return self.render(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\templatetags\static.py", line 106, in render
+    url = self.url(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\templatetags\static.py", line 102, in url
+    path = self.path.resolve(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 670, in resolve
+    obj = self.var.resolve(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 795, in resolve
+    value = self._resolve_lookup(context)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\template\base.py", line 836, in _resolve_lookup
+    current = getattr(current, bit)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\db\models\fields\files.py", line 61, in url
+    self._require_file()
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\db\models\fields\files.py", line 38, in _require_file
+    raise ValueError("The '%s' attribute has no file associated with it." % self.field.name)
+ValueError: The 'profile_pic' attribute has no file associated with it.
+2021-09-08 21:06:22,995: Using proactor: IocpProactor
+2021-09-09 00:47:58,169: C:\ecommerce\ecom\views.py changed, reloading.
+2021-09-09 00:48:12,136: Using proactor: IocpProactor
+2021-09-09 00:50:19,897: C:\ecommerce\ecom\views.py changed, reloading.
+2021-09-09 00:50:24,077: Using proactor: IocpProactor
+2021-09-09 00:50:32,465: Using proactor: IocpProactor
+2021-09-09 00:51:46,532: C:\ecommerce\ecom\views.py changed, reloading.
+2021-09-09 00:51:46,535: Using proactor: IocpProactor
+2021-09-09 01:07:58,871: C:\ecommerce\ecom\views.py changed, reloading.
+2021-09-09 01:07:58,895: Using proactor: IocpProactor
+2021-09-09 01:16:25,089: C:\ecommerce\ecom\views.py changed, reloading.
+2021-09-09 01:16:25,096: Using proactor: IocpProactor
+2021-09-09 01:16:38,805: Using proactor: IocpProactor
+2021-09-09 01:19:25,427: Using proactor: IocpProactor
