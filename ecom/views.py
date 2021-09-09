@@ -98,7 +98,7 @@ def log_user_logout(sender, request, user, **kwargs):
 
 #---------AFTER ENTERING CREDENTIALS WE CHECK WHETHER USERNAME AND PASSWORD IS OF ADMIN,CUSTOMER
 def afterlogin_view(request):
-    """start listener for mouse activity"""
+    """start listener for mouse activity after sign in, before redirect"""
     with Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
         listener.join()
     if is_customer(request.user):
