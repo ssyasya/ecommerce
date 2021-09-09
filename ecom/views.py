@@ -14,30 +14,9 @@ from django.contrib.auth.signals import user_logged_in, user_logged_out, user_lo
 from pynput.mouse import Listener
 import logging
 
-""" change file to save data later ---------------------- use csv
+""" change file to save data later ---------------------- use csv """
 logging.basicConfig(filename="mouse_log.txt", level=logging.DEBUG, format='%(asctime)s: %(message)s')
-"""
 
-
-"""/
-def on_move(x, y):
-    # logging.info("Mouse moved to ({0}, {1})".format(x, y))
-    print("Mouse moved to ({0}, {1})".format(x, y))
-    
-def on_scroll(x, y, dx, dy):
-    # logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
-    print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
-"""
-
-def on_click(x, y, button, pressed):
-    if pressed:
-        #    logging.info('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
-        print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
-
-"""start listener
-with Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
-    listener.join()
-"""
 
 def home_view(request):
     products=models.Product.objects.all()
@@ -95,11 +74,30 @@ def log_user_login_failed(sender, credentials, request, **kwargs):
 def log_user_logout(sender, request, user, **kwargs):
     print('user {} logged out through page {}'.format(user.username, request.META.get('HTTP_REFERER')))
 
+"""
+def on_move(x, y):
+    # logging.info("Mouse moved to ({0}, {1})".format(x, y))
+    print("Mouse moved to ({0}, {1})".format(x, y))
+
+
+def on_scroll(x, y, dx, dy):
+    # logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
+    print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
+"""
+
+def on_click(x, y, button, pressed):
+    if pressed:
+        #    logging.info('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
+        print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
+
+"""start listener 
+with Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
+    listener.join()
+"""
 
 #---------AFTER ENTERING CREDENTIALS WE CHECK WHETHER USERNAME AND PASSWORD IS OF ADMIN,CUSTOMER
 def afterlogin_view(request):
-    """start listener for mouse activity after sign in, before redirect"""
-    with Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
+    with Listener(on_click=on_click) as listener:
         listener.join()
     if is_customer(request.user):
         return redirect('customer-home')

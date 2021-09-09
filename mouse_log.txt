@@ -140,3 +140,33 @@ ValueError: The 'profile_pic' attribute has no file associated with it.
 2021-09-09 01:16:25,096: Using proactor: IocpProactor
 2021-09-09 01:16:38,805: Using proactor: IocpProactor
 2021-09-09 01:19:25,427: Using proactor: IocpProactor
+2021-09-09 22:26:34,677: C:\ecommerce\ecom\views.py changed, reloading.
+2021-09-09 22:26:34,682: Using proactor: IocpProactor
+2021-09-09 22:26:40,818: Internal Server Error: /logout
+Traceback (most recent call last):
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\exception.py", line 34, in inner
+    response = get_response(request)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\core\handlers\base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\views\generic\base.py", line 71, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\utils\decorators.py", line 43, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\views\decorators\cache.py", line 44, in _wrapped_view_func
+    response = view_func(request, *args, **kwargs)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\contrib\auth\views.py", line 118, in dispatch
+    auth_logout(request)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\contrib\auth\__init__.py", line 144, in logout
+    user_logged_out.send(sender=user.__class__, request=request, user=user)
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\dispatch\dispatcher.py", line 173, in send
+    return [
+  File "C:\Users\hp\AppData\Local\Programs\Python\Python38\lib\site-packages\django\dispatch\dispatcher.py", line 174, in <listcomp>
+    (receiver, receiver(signal=self, sender=sender, **named))
+  File "C:\ecommerce\ecom\views.py", line 96, in log_user_logout
+    print('user {} logged out through page {}'.format(user.username, request.META.get('HTTP_REFERER')))
+AttributeError: 'NoneType' object has no attribute 'username'
+2021-09-09 22:28:23,801: C:\ecommerce\ecom\views.py changed, reloading.
+2021-09-09 22:28:30,906: Using proactor: IocpProactor
+2021-09-09 22:30:38,937: Using proactor: IocpProactor
