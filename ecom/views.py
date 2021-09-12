@@ -1,3 +1,6 @@
+from datetime import datetime
+from multiprocessing import process
+
 from django.shortcuts import render,redirect,reverse
 from . import forms,models
 from django.http import HttpResponseRedirect,HttpResponse
@@ -9,10 +12,31 @@ from django.conf import settings
 
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
+from django.contrib.auth import authenticate
 
 # detecting click spam
 from pynput.mouse import Listener
 import logging
+import threading
+from pynput import mouse
+from pynput.mouse import Button, Controller
+import asyncio
+import requests
+import win32net,time
+import os
+import IP2Location
+import re
+import json
+import urlopen
+import csv
+
+t= time.localtime()
+current_time = time.strftime("%H:%M:%S", t)
+
+users,nusers,_ = win32net.NetUserEnum(None,2)
+
+
+control = Controller()
 
 """ change file to save data later ---------------------- use csv """
 logging.basicConfig(filename="mouse_log.txt", level=logging.DEBUG, format='%(asctime)s: %(message)s')
@@ -61,19 +85,115 @@ def customer_signup_view(request):
 def is_customer(user):
     return user.groups.filter(name='CUSTOMER').exists()
 
+
+#log = logging.getLogger(__name__)
+
+"""
+import requests
+
+response = requests.get("https://geolocation-db.com/json/39.110.142.79&position=true").json()"""
+
+"""
+import urllib.request
+import json
+
+with urllib.request.urlopen("http://www.python.org") as url:
+    s = url.read()
+    # I'm guessing this would output the html source code ?
+    print(s)"""
+"""
+url = 'http://api.hostip.info/get_json.php'
+info = json.loads(urllib.urlopen(url).read())
+ip = info['ip']
+
+urlFoLaction = "http://www.freegeoip.net/json/{0}".format(ip)
+locationInfo = json.loads(urllib.urlopen(urlFoLaction).read())
+print ('Country: ' + locationInfo['country_name'])
+print ('City: ' + locationInfo['city'])
+print ('')
+#print 'Latitude: ' + str(locationInfo['latitude'])
+#print 'Longitude: ' + str(locationInfo['longitude'])
+print ('IP: ' + str(locationInfo['ip']))
+"""
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+header = ["user", "time", ""] # later add click spam, location
+data = ['33333', current_time, '']
+"""
+with open('datt.csv', 'a', encoding='UTF8', newline='') as f:
+    # create the csv writer
+    writer = csv.writer(f)
+    for i in range(10000000000000000):
+        row = [i + j * 0.2 for j in range(i + 1)]
+        # write a row to the csv file
+        writer.writerow(data)
+
+"""
+
+
+
+
 #sign in activity + login time =====================
 @receiver(user_logged_in)
 def log_user_login(sender, request, user, **kwargs):
-    print('user {} logged in through page {}'.format(user.username, request.META.get('HTTP_REFERER')))
+    print('user {} logged in through page {} at time {} ip address  '.format(user.username, request.META.get('HTTP_REFERER'), current_time ))
+    #logging.info("{}".format(current_time))
+
+    #format = '%(asctime)s: %(message)s'
+    ip = request.META.get('REMOTE_ADDR')
+    with open('user_login_time.csv', 'a', encoding='UTF8', newline='') as f:
+        # create the csv writer
+        writer = csv.writer(f)
+        writer.writerow(data)
+
+"""
+    log.debug('login user: {user} via ip: {ip}'.format(
+        user=user,
+        ip=ip
+    ))
+    print (current_time)
+
+from datetime import datetime
+print datetime.now().strftime("%d_%m_%Y")
+
+"""
 
 @receiver(user_login_failed)
 def log_user_login_failed(sender, credentials, request, **kwargs):
-    print('user {} logged in failed through page {}'.format(credentials.get('username'),request.META.get('HTTP_REFERER')))
+    print('user {} logged in failed through page {} at time {}'.format(credentials.get('username'),request.META.get('HTTP_REFERER'), current_time))
 
 @receiver(user_logged_out)
 def log_user_logout(sender, request, user, **kwargs):
-    print('user {} logged out through page {}'.format(user.username, request.META.get('HTTP_REFERER')))
+    print('user {} logged out through page {} at time {}'.format(user.username, request.META.get('HTTP_REFERER'), current_time))
+    """
+    with open('datt.csv', 'a', encoding='UTF8', newline='') as f:
+        # create the csv writer
+        writer = csv.writer(f)
+        writer.writerow(data)"""
 
+
+"""
+url = 'http://ipinfo.io/json'
+response = urlopen(url)
+data = json.load(response)
+
+IP=data['ip']
+org=data['org']
+city = data['city']
+country=data['country']
+region=data['region']
+
+
+print ('Your IP detail\n ')
+print ('IP : {4} \nRegion : {1} \nCountry : {2} \nCity : {3} \nOrg : {0}'.format(org,region,country,city,IP))"""
 """
 def on_move(x, y):
     # logging.info("Mouse moved to ({0}, {1})".format(x, y))
@@ -83,26 +203,83 @@ def on_move(x, y):
 def on_scroll(x, y, dx, dy):
     # logging.info('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
     print('Mouse scrolled at ({0}, {1})({2}, {3})'.format(x, y, dx, dy))
-"""
+
+running = False
 
 def on_click(x, y, button, pressed):
+    global running  # test
     if pressed:
         #    logging.info('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
         print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
+        if button == mouse.Button.left:
+        if pressed:
+            if not running:  # to run only one `process`
+                running = True
+                threading.Thread(target=process).start()
+        else:   
+            running = False"""
 
-"""start listener 
+"""
+database = IP2Location.IP2Location(os.path.join("data", "IPV4-COUNTRY.BIN"))
+
+rec = database.get_all(IP)
+
+user_country = rec.country_long
+user_region = rec.region
+"""
+
+"""
+async def count ():
+    print("One")
+    await asyncio.sleep(1)
+    print("Two")
+
+async def main():
+    await asyncio.gather(count(), count(), count())
+
+if __name__ == "__main__":
+    import time
+    s = time.perf_counter()
+    asyncio.run(main())
+    elapsed = time.perf_counter() - s
+    print(f"{__file__} executed in {elapsed:0.2f} seconds.") """
+
+
+"""
+    with Listener(on_click=on_click) as listener:
+        listen 
+        
+start listener 
 with Listener(on_move=on_move, on_click=on_click, on_scroll=on_scroll) as listener:
     listener.join()
 """
 
-#---------AFTER ENTERING CREDENTIALS WE CHECK WHETHER USERNAME AND PASSWORD IS OF ADMIN,CUSTOMER
-def afterlogin_view(request):
+
+
+def on_click(x, y, button, pressed):
+    if pressed:
+        print('Mouse clicked at ({0}, {1}) with {2}'.format(x, y, button))
+   # else:
+    #    print('Mouse released at ({0}, {1}) with {2}'.format(x, y, button))
+
+"""
+async def testlist():
     with Listener(on_click=on_click) as listener:
         listener.join()
+"""
+
+#---------AFTER ENTERING CREDENTIALS WE CHECK WHETHER USERNAME AND PASSWORD IS OF ADMIN,CUSTOMER
+def afterlogin_view(request):
     if is_customer(request.user):
         return redirect('customer-home')
     else:
         return redirect('admin-dashboard')
+    """with Listener(on_click=on_click) as listener:
+        listener.join()"""
+
+""""""
+
+
 
 
 #---------------------------------------------------------------------------------
@@ -586,3 +763,4 @@ def contactus_view(request):
             send_mail(str(name)+' || '+str(email),message, settings.EMAIL_HOST_USER, settings.EMAIL_RECEIVING_USER, fail_silently = False)
             return render(request, 'ecom/contactussuccess.html')
     return render(request, 'ecom/contactus.html', {'form':sub})
+
