@@ -128,7 +128,7 @@ def get_client_ip(request):
 header = ["user", "time", ""] # later add click spam, location
 data = ['33333', current_time, '']
 """
-with open('datt.csv', 'a', encoding='UTF8', newline='') as f:
+with open('user_data.csv', 'a', encoding='UTF8', newline='') as f:
     # create the csv writer
     writer = csv.writer(f)
     for i in range(10000000000000000):
@@ -149,7 +149,7 @@ def log_user_login(sender, request, user, **kwargs):
 
     #format = '%(asctime)s: %(message)s'
     ip = request.META.get('REMOTE_ADDR')
-    with open('user_login_time.csv', 'a', encoding='UTF8', newline='') as f:
+    with open('user_data.csv', 'a', encoding='UTF8', newline='') as f:
         # create the csv writer
         writer = csv.writer(f)
         writer.writerow(data)
@@ -174,7 +174,7 @@ def log_user_login_failed(sender, credentials, request, **kwargs):
 def log_user_logout(sender, request, user, **kwargs):
     print('user {} logged out through page {} at time {}'.format(user.username, request.META.get('HTTP_REFERER'), current_time))
     """
-    with open('datt.csv', 'a', encoding='UTF8', newline='') as f:
+    with open('user_data.csv', 'a', encoding='UTF8', newline='') as f:
         # create the csv writer
         writer = csv.writer(f)
         writer.writerow(data)"""
