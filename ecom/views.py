@@ -29,11 +29,13 @@ import re
 import json
 import urlopen
 import csv
+from time import gmtime, strftime
 
 t= time.localtime()
-current_time = time.strftime("%H:%M:%S", t)
+current_time = time.strftime("%H%M%S", t)
+print (current_time)
 
-users,nusers,_ = win32net.NetUserEnum(None,2)
+
 
 
 control = Controller()
@@ -125,8 +127,8 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
-header = ["user", "time", ""] # later add click spam, location
-data = ['33333', current_time, '']
+header = ["user", "time"] # later add click spam, location
+data = ['33333', current_time]
 """
 with open('user_data.csv', 'a', encoding='UTF8', newline='') as f:
     # create the csv writer
