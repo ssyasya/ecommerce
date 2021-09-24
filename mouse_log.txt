@@ -1091,3 +1091,4 @@ TypeError: writerow() takes exactly one argument (2 given)
 2021-09-15 02:20:05,040: Using proactor: IocpProactor
 2021-09-15 02:21:11,540: C:\ecommerce\ecom\views.py changed, reloading.
 2021-09-15 02:21:11,541: Using proactor: IocpProactor
+2021-09-16 14:55:01,259: Not Found: /favicon.ico
