@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn import logger
 from sklearn.neighbors import NearestNeighbors
 import os, sys
 from scipy import stats
@@ -9,8 +10,7 @@ import numpy as np
 from numba import njit
 import logging
 
-
-data = pd.read_csv('../../user_data.csv')
+data = pd.read_csv('../user_data.csv')
 
 #samples = data[["number", "time"]]
 """

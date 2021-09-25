@@ -10,7 +10,7 @@ from sklearn.metrics import (
 import pandas as pd
 from knn.data_knn import MFA_model
 
-user_data = pd.read_csv('../../user_data.csv')
+user_data = pd.read_csv('../user_data.csv')
 
 #print(user_data)
 
@@ -77,7 +77,7 @@ def wrapper_data_generate(dim, dim_latent_range, n_components, N_train, N_test,
     :return:
     """
 def metrics_detection(scores, labels, pos_label=1, max_fpr=0.01, verbose=True):
-    
+
     fpr_thresh = [0.001, 0.005, 0.01, 0.05, 0.1]
     au_roc = roc_auc_score(labels, scores)
     au_roc_partial = roc_auc_score(labels, scores, max_fpr=max_fpr)
@@ -104,15 +104,15 @@ def metrics_detection(scores, labels, pos_label=1, max_fpr=0.01, verbose=True):
 
     return au_roc, au_roc_partial, avg_prec, tpr, fpr
 
-
-def get_num_jobs(n_jobs):
-    """
+"""
     Number of processes or jobs to use for multiprocessing.
     :param n_jobs: None or int value that specifies the number of parallel jobs. If set to None, -1, or 0, this will
                    use all the available CPU cores. If set to negative values, this value will be subtracted from
                    the available number of CPU cores. For example, `n_jobs = -2` will use `cpu_count - 2`.
     :return: (int) number of jobs to use.
     """
+def get_num_jobs(n_jobs):
+
     cc = cpu_count()
     if n_jobs is None or n_jobs == -1 or n_jobs == 0:
         n_jobs = cc
