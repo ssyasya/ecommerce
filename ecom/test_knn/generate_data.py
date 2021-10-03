@@ -1,4 +1,3 @@
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,50 +5,25 @@ from sklearn import logger
 from sklearn.neighbors import NearestNeighbors
 import os, sys
 from scipy import stats
+
 import numpy as np
 from numba import njit
 import logging
 
-data = pd.read_csv('../user_data.csv')
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-#samples = data[["number", "time"]]
-"""
 @njit()
 def sample_diagonal_multivariate_normal(means, variances, ns=1):
     dim = means.shape[0]
     stdev = np.sqrt(variances)
     samples = np.zeros((ns, dim))
     for i in range(dim):
-        #samples[:, i] = np.random.normal(loc=means[i], scale=stdev[i], size=ns)
-        data = pd.read_csv('../user_data.csv')
-        samples = data[["number", "time"]]
-    #return samples
-    print(samples)
-"""
-@njit()
-def sample_diagonal_multivariate_normal(means, variances, ns=1):
-    dim = means.shape[0]
-    stdev = np.sqrt(variances)
-    samples = np.zeros((ns, dim))
-    for i in range(dim):
-        samples[:,i] = data[["number", "time"]](loc=means[i], scale=stdev[i], size=ns)
+        samples[:, i] = np.random.normal(loc=means[i], scale=stdev[i], size=ns)
     return samples
 
 class MFA_model:
     def __init__(self, n_components, dim, dim_latent=None, dim_latent_range=None, seed_rng=123):
-        """
-                Specify one of the inputs `dim_latent` or `dim_latent_range`, not both.
-                :param n_components: (int) number of components in the MFA model. Value should be >= 1.
-                :param dim: (int) dimension or number of features. Should be >= 2.
-                :param dim_latent: (int or list/tuple/array of ints) dimension of the latent space per component.
-                                   If a single integer value is specified, that value is used for all the components.
-                                   The size of the list/tuple/array should be equal to `n_components`.
-                :param dim_latent_range: tuple or list with two integer values specifying the range of the dimension of
-                                         the latent space. For each component, the latent dimension is randomly selected
-                                         from this range of values. Make sure the upper end of this range is smaller than
-                                         `dim`.
-                :param seed_rng: None or an integer to seed the random number generator.
-                """
         self.n_components = n_components
         if n_components < 1:
             raise ValueError("Invalid value '{}' for 'n_components'".format(n_components))
@@ -82,11 +56,6 @@ class MFA_model:
         self.parameters = self.generate_params()
 
     def generate_params(self):
-        """
-        Following the Bayesian conjugate priors model for MFA from
-        http://mlg.eng.cam.ac.uk/zoubin/papers/nips99.pdf
-        :return: dict of parameters.
-        """
         zs = np.zeros(self.dim)
         self.parameters = dict()
 
@@ -178,50 +147,3 @@ class MFA_model:
         ind = np.random.permutation(N)
 
         return data[ind, :], labels[ind]
-"""
-#print(data)
-
-# scatterplot of inputs data
-plt.scatter(df["number"], df["time"])
-
-# scatterplot of inputs data
-plt.scatter(df["number"], df["time"])
-
-# create arrays
-X = df.values
-
-
-# instantiate model
-nbrs = NearestNeighbors(n_neighbors = 3)
-# fit model
-nbrs.fit(X)
-
-# distances and indexes of k-neaighbors from model outputs
-distances, indexes = nbrs.kneighbors(X)
-# plot mean of k-distances of each observation
-plt.plot(distances.mean(axis =1))
-
-plt.show()
-
-# visually determine cutoff values > 0.15
-outlier_index = np.where(distances.mean(axis = 1) > 0.15)
-outlier_index
-
-# filter outlier values
-outlier_values = df.iloc[outlier_index]
-outlier_values
-
-# plot data
-plt.scatter(df["number"], df["time"], color = "b", s = 65)
-# plot outlier values
-plt.scatter(outlier_values["number"], outlier_values["time"], color = "r")
-
-plt.show()"""
-
-#1. get euclidian distance
-#2. get nearest neighbour
-#3. make predictions
-
-#data
-
-

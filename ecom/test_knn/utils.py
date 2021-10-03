@@ -8,9 +8,9 @@ from sklearn.metrics import (
     average_precision_score
 )
 import pandas as pd
-from knn.data_knn import MFA_model
+from test_knn.generate_data import MFA_model
 
-user_data = pd.read_csv('../user_data.csv')
+user_data = pd.read_csv('../../user_data.csv')
 
 #print(user_data)
 

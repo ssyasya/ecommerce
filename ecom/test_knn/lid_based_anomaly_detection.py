@@ -1,15 +1,3 @@
-"""
-Anomaly detection based on parametric modeling of the distribution of local intrinsic dimension.
-The local intrinsic dimension (LID) estimates are calculated at each nominal data point based on the maximum
-likelihood estimator from [1] and [2]. The distribution of LID values from nominal data is then modeled parametrically
-using a mixture of Log-Normal densities. In other words, the log of the LID values are modeled using a mixture
-of Normal densities. Given a test point, its LID estimate and p-value under the parametric density model are
-calculated. A very small p-value corresponds to an anomalous test point.
-1. Amsaleg, Laurent, et al. "Estimating local intrinsic dimensionality." Proceedings of the 21th ACM SIGKDD
-International Conference on Knowledge Discovery and Data Mining. ACM, 2015.
-2. Ma, Xingjun, et al. "Characterizing adversarial subspaces using local intrinsic dimensionality."
-arXiv preprint arXiv:1801.02613 (2018).
-"""
 import numpy as np
 import sys
 from lid_estimators import lid_mle_amsaleg
