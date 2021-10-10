@@ -1,9 +1,7 @@
-# k-nearest neighbors on the Iris Flowers Dataset
 from random import seed
 from random import randrange
 from csv import reader
 from math import sqrt
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,7 +22,7 @@ def load_csv(filename):
 # Convert string column to float
 def str_column_to_float(dataset, column):
     for row in dataset:
-        row[column] = float(row[column].strip())
+        row[column] = float(row[column].strip()) #error
 
 
 # Convert string column to integer
@@ -173,10 +171,14 @@ def k_nearest_neighbors(train, test, num_neighbors):
 
 # Test the kNN on the Iris Flowers dataset
 seed(1)
-filename = 'iris.csv'
+
+#df = pd.read_csv('../data_knn.csv')
+#df.to_numpy()
+
+filename = '../data_knn.csv'
 dataset = load_csv(filename)
 for i in range(len(dataset[0]) - 1):
-    str_column_to_float(dataset, i)
+    str_column_to_float(dataset, i) #error
 # convert class column to integers
 str_column_to_int(dataset, len(dataset[0]) - 1)
 # evaluate algorithm
@@ -186,9 +188,11 @@ scores = evaluate_algorithm(dataset, k_nearest_neighbors, n_folds, num_neighbors
 print('Scores: %s' % scores)
 print('Mean Accuracy: %.3f%%' % (sum(scores) / float(len(scores))))
 
-"""
+
 # Make a prediction with KNN on Iris Dataset
-filename = 'iris.csv'
+
+
+filename = '../data_knn.csv'
 dataset = load_csv(filename)
 for i in range(len(dataset[0])-1):
 	str_column_to_float(dataset, i)
@@ -201,6 +205,32 @@ row = [5.7,2.9,4.2,1.3]
 # predict the label
 label = predict_classification(dataset, row, num_neighbors)
 print('Data=%s, Predicted: %s' % (row, label))
+
+""" --- """
+
+X = dataset.values
+
+# instantiate model
+nbrs = NearestNeighbors(n_neighbors = 3)
+# fit model
+nbrs.fit(X)
+
+# distances and indexes of k-neaighbors from model outputs
+distances, indexes = nbrs.kneighbors(X)
+# plot mean of k-distances of each observation
+plt.plot(distances.mean(axis =1))
+
+outlier_index = np.where(distances.mean(axis = 1) > 0.15)
+outlier_index
+
+# filter outlier values
+outlier_values = dataset.iloc[outlier_index]
+outlier_values
+
+# plot outlier values
+plt.scatter(outlier_values["browser"], outlier_values["session_length"], color = "r")
+
+"""
 
 
 Running the data first summarizes the mapping of class labels to integers and then fits the model on the entire dataset.

@@ -1119,3 +1119,5 @@ Traceback (most recent call last):
   File "C:\ecommerce\ecom\views.py", line 177, in log_user_logout
     print('user {} logged out through page {} at time {}'.format(user.username, request.META.get('HTTP_REFERER'), current_time))
 AttributeError: 'NoneType' object has no attribute 'username'
+2021-10-04 07:54:52,690: C:\ecommerce\ecom\views.py changed, reloading.
+2021-10-04 07:54:52,724: Using proactor: IocpProactor

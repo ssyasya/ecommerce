@@ -2,7 +2,9 @@ import numpy as np
 import sys
 from lid_estimators import lid_mle_amsaleg
 from knn_index import KNNIndex
-from utils import get_num_jobs
+import utils
+
+from test_knn.utils import get_num_jobs
 
 
 class LID_based_anomaly_detection:
@@ -12,23 +14,7 @@ class LID_based_anomaly_detection:
                  approx_nearest_neighbors=True,
                  n_jobs=1,
                  seed_rng=123):
-        """
-        :param neighborhood_constant: float value in (0, 1), that specifies the number of nearest neighbors as a
-                                      function of the number of samples (data size). If `N` is the number of samples,
-                                      then the number of neighbors is set to `N^neighborhood_constant`. It is
-                                      recommended to set this value in the range 0.4 to 0.5.
-        :param n_neighbors: None or int value specifying the number of nearest neighbors. If this value is specified,
-                            the `neighborhood_constant` is ignored. It is sufficient to specify either
-                            `neighborhood_constant` or `n_neighbors`.
-        :param metric: string or a callable that specifies the distance metric.
-        :param metric_kwargs: optional keyword arguments required by the distance metric specified in the form of a
-                              dictionary.
-        :param approx_nearest_neighbors: Set to True in order to use an approximate nearest neighbor algorithm to
-                                         find the nearest neighbors. This is recommended when the number of points is
-                                         large and/or when the dimension of the data is high.
-        :param n_jobs: Number of parallel jobs or processes. Set to -1 to use all the available cpu cores.
-        :param seed_rng: int value specifying the seed for the random number generator.
-        """
+
         self.neighborhood_constant = neighborhood_constant
         self.n_neighbors = n_neighbors
         self.metric = metric
@@ -42,11 +28,6 @@ class LID_based_anomaly_detection:
         self.lid_nominal = None
 
     def fit(self, data):
-        """
-        :param data: numpy data array of shape `(N, d)`, where `N` is the number of samples and `d` is the number
-                     of dimensions (features).
-        :return: None
-        """
         self.num_samples = data.shape[0]
         # Build the KNN graph for the data
         self.index_knn = KNNIndex(
@@ -62,14 +43,6 @@ class LID_based_anomaly_detection:
         self.lid_nominal = self.estimate_lid(data, exclude_self=True)
 
     def score(self, data_test, exclude_self=False):
-        """
-        Calculate the anomaly score (p-value) for a given test data set.
-        :param data_test: numpy data array of shape `(N, d)`, where `N` is the number of samples and `d` is the
-                          number of dimensions (features).
-        :param exclude_self: Set to True if the points in `data` were already used to build the KNN index.
-        :return score: numpy array of shape `(n, 1)` containing the score for each point. Points with higher score
-                       are more likely to be anomalous.
-        """
         # LID estimate at each point based on the nearest neighbor distances
         lid = self.estimate_lid(data_test, exclude_self=exclude_self)
 
@@ -81,12 +54,6 @@ class LID_based_anomaly_detection:
         return -1.0 * np.log(np.clip(pvalues, sys.float_info.min, None))
 
     def estimate_lid(self, data, exclude_self=False):
-        """
-        :param data: numpy data array of shape `(N, d)`, where `N` is the number of samples and `d` is the number
-                     of dimensions (features).
-        :param exclude_self: Set to True if the points in `data` were already used to build the KNN index.
-        :return:
-        """
         # Find the distances from each point to its `self.n_neighbors` nearest neighbors.
         nn_indices, nn_distances = self.index_knn.query(data, exclude_self=exclude_self)
 
