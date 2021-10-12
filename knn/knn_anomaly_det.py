@@ -7,6 +7,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.neighbors import NearestNeighbors
 
+#dataset = pd.read_csv('../data_knn.csv', 'r')
+#dataset.to_numpy()
+
 # Load a CSV file
 def load_csv(filename):
     dataset = list()
@@ -17,7 +20,6 @@ def load_csv(filename):
                 continue
             dataset.append(row)
     return dataset
-
 
 # Convert string column to float
 def str_column_to_float(dataset, column):
@@ -125,30 +127,6 @@ def get_neighbors(train, test_row, num_neighbors):
     return neighbors
 
 
-
-"""
-Test distance function
-dataset = [[2.7810836,2.550537003,0],
-	[1.465489372,2.362125076,0],
-	[3.396561688,4.400293529,0],
-	[1.38807019,1.850220317,0],
-	[3.06407232,3.005305973,0],
-	[7.627531214,2.759262235,1],
-	[5.332441248,2.088626775,1],
-	[6.922596716,1.77106367,1],
-	[8.675418651,-0.242068655,1],
-	[7.673756466,3.508563011,1]]
-neighbors = get_neighbors(dataset, dataset[0], 3)
-for neighbor in neighbors:
-	print(neighbor)
-	
-test prediction ---
-prediction = predict_classification(dataset, dataset[0], 3)
-print('Expected %d, Got %d.' % (dataset[0][-1], prediction))
-
-"""
-
-
 """ 3 
 Once the neighbors are discovered, the summary prediction can be made by returning the most common outcome or taking the average. As such, KNN can be used for classification or regression problems
 """
@@ -168,20 +146,34 @@ def k_nearest_neighbors(train, test, num_neighbors):
         predictions.append(output)
     return (predictions)
 
-
+"""---"""
 # Test the kNN on the Iris Flowers dataset
 seed(1)
+
 
 #df = pd.read_csv('../data_knn.csv')
 #df.to_numpy()
 
+filename = pd.read_csv ('../data_knn.csv')
+dataset = filename[["location", "browser", "session_length"]]
+dataset.to_numpy()
+
+n_folds = 3
+num_neighbors = 3
+scores = evaluate_algorithm(dataset, k_nearest_neighbors, n_folds, num_neighbors)
+
+print('Scores: %s' % scores)
+print('Mean Accuracy: %.3f%%' % (sum(scores) / float(len(scores))))
+"""
+"""
 filename = '../data_knn.csv'
 dataset = load_csv(filename)
-for i in range(len(dataset[0]) - 1):
-    str_column_to_float(dataset, i) #error
+for i in range(len(dataset[0]) - 1): #error
+    str_column_to_float(dataset, i)
 # convert class column to integers
 str_column_to_int(dataset, len(dataset[0]) - 1)
 # evaluate algorithm
+df = pd.read_csv('../data_knn.csv')
 n_folds = 5
 num_neighbors = 5
 scores = evaluate_algorithm(dataset, k_nearest_neighbors, n_folds, num_neighbors)
@@ -189,15 +181,9 @@ print('Scores: %s' % scores)
 print('Mean Accuracy: %.3f%%' % (sum(scores) / float(len(scores))))
 
 
+"""
 # Make a prediction with KNN on Iris Dataset
 
-
-filename = '../data_knn.csv'
-dataset = load_csv(filename)
-for i in range(len(dataset[0])-1):
-	str_column_to_float(dataset, i)
-# convert class column to integers
-str_column_to_int(dataset, len(dataset[0])-1)
 # define model parameter
 num_neighbors = 5
 # define a new record
@@ -205,8 +191,11 @@ row = [5.7,2.9,4.2,1.3]
 # predict the label
 label = predict_classification(dataset, row, num_neighbors)
 print('Data=%s, Predicted: %s' % (row, label))
+"""
 
-""" --- """
+
+
+
 
 X = dataset.values
 
@@ -230,9 +219,8 @@ outlier_values
 # plot outlier values
 plt.scatter(outlier_values["browser"], outlier_values["session_length"], color = "r")
 
+
 """
-
-
 Running the data first summarizes the mapping of class labels to integers and then fits the model on the entire dataset.
 
 Then a new observation is defined (in this case I took a row from the dataset), and a predicted label is calculated.
