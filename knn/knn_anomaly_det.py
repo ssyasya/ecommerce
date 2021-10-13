@@ -7,9 +7,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.neighbors import NearestNeighbors
 
-#dataset = pd.read_csv('../data_knn.csv', 'r')
-#dataset.to_numpy()
-
+dataset = pd.read_csv('../data_knn.csv', 'r')
+"""
 # Load a CSV file
 def load_csv(filename):
     dataset = list()
@@ -38,7 +37,7 @@ def str_column_to_int(dataset, column):
         row[column] = lookup[row[column]]
     return lookup
 
-
+"""
 # Find the min and max values for each column
 def dataset_minmax(dataset):
     minmax = list()
@@ -153,7 +152,7 @@ seed(1)
 
 #df = pd.read_csv('../data_knn.csv')
 #df.to_numpy()
-
+"""
 filename = pd.read_csv ('../data_knn.csv')
 dataset = filename[["location", "browser", "session_length"]]
 dataset.to_numpy()
@@ -181,6 +180,7 @@ print('Scores: %s' % scores)
 print('Mean Accuracy: %.3f%%' % (sum(scores) / float(len(scores))))
 
 
+"""
 """
 # Make a prediction with KNN on Iris Dataset
 
@@ -220,12 +220,3 @@ outlier_values
 plt.scatter(outlier_values["browser"], outlier_values["session_length"], color = "r")
 
 
-"""
-Running the data first summarizes the mapping of class labels to integers and then fits the model on the entire dataset.
-
-Then a new observation is defined (in this case I took a row from the dataset), and a predicted label is calculated.
-
-In this case our observation is predicted as belonging to class 1 which we know is “Iris-setosa“.
-
-https://machinelearningmastery.com/tutorial-to-implement-k-nearest-neighbors-in-python-from-scratch/
-"""

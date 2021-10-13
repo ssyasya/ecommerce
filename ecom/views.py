@@ -35,7 +35,7 @@ from time import gmtime, strftime
 
 t = time.localtime()
 current_time = time.strftime("%H.%M", t)
-print(current_time)
+print(current_time) #data as login_time
 """
 def detectBrowser(request):
     agent = request.environ.get('HTTP_USER_AGENT')
