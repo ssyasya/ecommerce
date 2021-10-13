@@ -2,13 +2,15 @@ from random import seed
 from random import randrange
 from csv import reader
 from math import sqrt
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.neighbors import NearestNeighbors
+import pandas as pd
 
-dataset = pd.read_csv('../data_knn.csv', 'r')
 """
+Once the neighbors are discovered, the summary prediction can be made by returning the most common outcome or taking the average. As such, KNN can be used for classification or regression problems
+"""
+
 # Load a CSV file
 def load_csv(filename):
     dataset = list()
@@ -18,26 +20,28 @@ def load_csv(filename):
             if not row:
                 continue
             dataset.append(row)
-    return dataset
+    return dataset[1:]
+
 
 # Convert string column to float
 def str_column_to_float(dataset, column):
     for row in dataset:
-        row[column] = float(row[column].strip()) #error
+        row[column] = float(row[column].strip())
 
 
-# Convert string column to integer
+# Convert string column to integer - print the mapping of string class names to integers so we can interpret the prediction made by the model
 def str_column_to_int(dataset, column):
     class_values = [row[column] for row in dataset]
     unique = set(class_values)
     lookup = dict()
     for i, value in enumerate(unique):
         lookup[value] = i
+        print('[%s] => %d' % (value, i))
     for row in dataset:
         row[column] = lookup[row[column]]
     return lookup
 
-"""
+
 # Find the min and max values for each column
 def dataset_minmax(dataset):
     minmax = list()
@@ -53,7 +57,7 @@ def dataset_minmax(dataset):
 def normalize_dataset(dataset, minmax):
     for row in dataset:
         for i in range(len(row)):
-            row[i] = (row[i] - minmax[i][0]) / (minmax[i][1] - minmax[i][0])
+            row[i] = (row[i] - minmax[i][1]) / (minmax[i][2] - minmax[i][1])
 
 
 # Split a dataset into k folds
@@ -103,10 +107,10 @@ def evaluate_algorithm(dataset, algorithm, n_folds, *args):
 
 
 # Calculate the Euclidean distance between two vectors
-def euclidean_distance(row1, row2):
+def euclidean_distance(row2, row3):
     distance = 0.0
-    for i in range(len(row1) - 1):
-        distance += (row1[i] - row2[i]) ** 2
+    for i in range(len(row2)-1):
+        distance += (row2[i] - row3[i]) ** 2
     return sqrt(distance)
 
 
@@ -137,6 +141,7 @@ def predict_classification(train, test_row, num_neighbors):
     return prediction
 
 
+"""---"""
 # kNN Algorithm
 def k_nearest_neighbors(train, test, num_neighbors):
     predictions = list()
@@ -145,59 +150,59 @@ def k_nearest_neighbors(train, test, num_neighbors):
         predictions.append(output)
     return (predictions)
 
-"""---"""
-# Test the kNN on the Iris Flowers dataset
+
+# Test the kNN on the dataset
 seed(1)
-
-
-#df = pd.read_csv('../data_knn.csv')
-#df.to_numpy()
-"""
-filename = pd.read_csv ('../data_knn.csv')
-dataset = filename[["location", "browser", "session_length"]]
-dataset.to_numpy()
-
-n_folds = 3
-num_neighbors = 3
-scores = evaluate_algorithm(dataset, k_nearest_neighbors, n_folds, num_neighbors)
-
-print('Scores: %s' % scores)
-print('Mean Accuracy: %.3f%%' % (sum(scores) / float(len(scores))))
-"""
-"""
-filename = '../data_knn.csv'
+filename = 'C:\ecommerce\data_knn.csv'
 dataset = load_csv(filename)
-for i in range(len(dataset[0]) - 1): #error
+for i in range(len(dataset[0]) - 1):
     str_column_to_float(dataset, i)
+
+
 # convert class column to integers
 str_column_to_int(dataset, len(dataset[0]) - 1)
+
+
 # evaluate algorithm
-df = pd.read_csv('../data_knn.csv')
 n_folds = 5
 num_neighbors = 5
 scores = evaluate_algorithm(dataset, k_nearest_neighbors, n_folds, num_neighbors)
 print('Scores: %s' % scores)
 print('Mean Accuracy: %.3f%%' % (sum(scores) / float(len(scores))))
 
+""" """
+# Make a prediction with KNN
 
-"""
-"""
-# Make a prediction with KNN on Iris Dataset
 
-# define model parameter
+
 num_neighbors = 5
+
 # define a new record
-row = [5.7,2.9,4.2,1.3]
+row = [34,15.56,37.60779252]
+
 # predict the label
 label = predict_classification(dataset, row, num_neighbors)
 print('Data=%s, Predicted: %s' % (row, label))
+
+"""
+https://machinelearningmastery.com/tutorial-to-implement-k-nearest-neighbors-in-python-from-scratch/
 """
 
 
 
+data = pd.read_csv('C:\ecommerce\data_knn.csv')
 
+df = data[["click", "login_time", "session_length"]]
 
-X = dataset.values
+print("adasd")
+
+#print(data)
+
+# scatterplot of inputs data
+plt.scatter(df["login_time"], df["session_length"])
+plt.show()
+# create arrays
+X = df.values #visualization of variables for modelling
 
 # instantiate model
 nbrs = NearestNeighbors(n_neighbors = 3)
@@ -208,15 +213,18 @@ nbrs.fit(X)
 distances, indexes = nbrs.kneighbors(X)
 # plot mean of k-distances of each observation
 plt.plot(distances.mean(axis =1))
+plt.show() #spikes in distance measures, and these spikes are potentially anomalies or outliers in the dataset
 
-outlier_index = np.where(distances.mean(axis = 1) > 0.15)
+# visually determine cutoff values y axis to determine anomalies
+outlier_index = np.where(distances.mean(axis = 1) > 1.0)
 outlier_index
 
 # filter outlier values
-outlier_values = dataset.iloc[outlier_index]
+outlier_values = df.iloc[outlier_index]
 outlier_values
 
+# plot data
+plt.scatter(df["login_time"], df["session_length"], color = "b", s = 65)
 # plot outlier values
-plt.scatter(outlier_values["browser"], outlier_values["session_length"], color = "r")
-
-
+plt.scatter(outlier_values["login_time"], outlier_values["session_length"], color = "r")
+plt.show() #red dots anomalies
