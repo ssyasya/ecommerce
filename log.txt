@@ -77,3 +77,5 @@ ValueError: The 'profile_pic' attribute has no file associated with it.
 2021-10-14 00:06:29,472: Not Found: /favicon.ico
 2021-10-14 00:44:18,518: Not Found: /favicon.ico
 2021-10-14 00:47:49,696: Using proactor: IocpProactor
+2021-10-14 01:20:29,969: C:\ecommerce\ecom\views.py changed, reloading.
+2021-10-14 01:20:29,971: Using proactor: IocpProactor

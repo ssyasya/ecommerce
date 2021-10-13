@@ -194,7 +194,7 @@ data = pd.read_csv('C:\ecommerce\data_knn.csv')
 
 df = data[["click", "login_time", "session_length"]]
 
-print("adasd")
+"""------------------------------------------------------"""
 
 #print(data)
 
