@@ -1,9 +1,10 @@
+
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
 
 
 @receiver(user_logged_in)
-def log_user_login(sender, request, user, **kwargs):
+def log_user_login(sender: object, request: object, user: object, **kwargs: object) -> object:
     print('user {} logged in through page {}'.format(user.username, request.META.get('HTTP_REFERER')))
 
 

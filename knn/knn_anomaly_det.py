@@ -7,10 +7,6 @@ import matplotlib.pyplot as plt
 from sklearn.neighbors import NearestNeighbors
 import pandas as pd
 
-"""
-Once the neighbors are discovered, the summary prediction can be made by returning the most common outcome or taking the average. As such, KNN can be used for classification or regression problems
-"""
-
 # Load a CSV file
 def load_csv(filename):
     dataset = list()
@@ -227,4 +223,4 @@ outlier_values
 plt.scatter(df["login_time"], df["session_length"], color = "b", s = 65)
 # plot outlier values
 plt.scatter(outlier_values["login_time"], outlier_values["session_length"], color = "r")
-plt.show() #red dots anomalies
+plt.show() #red dots anomalies, statistical analysis , conclude graph,
